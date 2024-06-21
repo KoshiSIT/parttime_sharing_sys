@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}意見箱・掲示板{% endblock %}
+{% block h1 %}掲示板{% endblock %}
+{% block content %}
+<div class="outer_container">
+    <div class="inner_container">
+        {% for item in object_list %}
+        {% if request.user.is_staff %}
+        <a href="{% url 'shift:board-edit' item.pk %}" class="btn board-edit">掲示板編集
+            <p class="exp">掲示板の編集を行う事ができます。</p>
+        </a>
+        {% else %}
+        <a href="{% url 'shift:board-detail' item.pk%}" class="btn board-confirm">掲示板確認
+            <p class="exp">店舗からの連絡を確認することができます。</p>
+        </a>
+        {% endif %}
+        {% endfor %}
+        {% if request.user.is_staff %}
+        <a href="{% url 'shift:opinion-list' %}" class="btn opinion-box">意見箱
+            <p class="exp">従業員から届いた意見を一覧で確認することができます。</p>
+        </a>
+        {% else %}
+        <a href="{% url 'shift:opinion-create' %}" class="btn opinion-send">意見送信
+            <p class="exp">雇用者に匿名で意見を送信することができます。</p>
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .outer_container {}
+
+    .inner_container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn {
+        background-color: #1F6FD8;
+        padding: 30px 20px;
+        margin: 10px 30px;
+        font-size: 30px;
+        color: white;
+        font-weight: bold;
+        opacity: 0.8;
+        border-radius: 20px;
+        width: 40%;
+        text-align: center;
+        box-shadow: 5px 5px 5px black;
+    }
+
+
+    .btn:hover {
+        opacity: 1.0;
+        box-shadow: none;
+        transform: translateY(5px);
+    }
+
+    .exp {
+        color: rgb(0, 0, 0);
+        font-size: 20px;
+        z-index: 2;
+        text-decoration: underline black;
+        text-decoration-thickness: 4px;
+        font-weight: normal;
+    }
+</style>
+{% endblock content %}
